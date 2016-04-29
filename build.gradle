@@ -1,0 +1,102 @@
+apply plugin: 'java'
+
+/*
+ * We set the sourceCompatibility to 1.8, but might not be 
+ * necessary after you update jmh.
+ */
+compileJava {
+  sourceCompatibility = '1.8'
+}
+apply plugin:'groovy'
+
+group = 'ru.gvsmirnov'
+version = '0.0.1'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.9.0-M3'
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+sourceSets {
+    perf
+}
+
+dependencies {
+    compile 'org.uncommons:uncommons-maths:1.2'
+	compile 'org.openjdk.jmh:jmh-core:1.12'
+	compile files('libs/jcublas-0.7.5b.jar')
+	compile files('libs/jcuda-0.7.5b.jar')
+	compile files('libs/jcufft-0.7.5b.jar')
+	compile files('libs/jcurand-0.7.5b.jar')
+	compile files('libs/jcusolver-0.7.5b.jar')
+	compile files('libs/jcusparse-0.7.5b.jar')
+
+	/* 
+	 * In order to use/include Yoink into this jmh 
+	 * you have to use compile files('location-of-your-Yoink-0.0.1.jar').
+	 */
+    //compile files('./libs/Yoink-0.0.1.jar')
+	
+    perfCompile project
+	
+    /* 
+     * You have to update both jmh dependencies to 1.12
+     */
+    perfCompile 'org.openjdk.jmh:jmh-core:1.12'
+    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.12'
+
+
+    perfCompile 'com.fasterxml.jackson.core:jackson-core:2.3.2'
+    perfCompile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+
+}
+
+apply plugin: "idea"
+idea {
+    module {
+        scopes.PROVIDED.plus  += configurations.perfCompile
+        scopes.PROVIDED.minus += configurations.compile
+    }
+}
+
+apply plugin: "eclipse"
+eclipse {
+    classpath {
+        plusConfigurations += configurations.perfCompile
+    }
+}
+
+task benchmarks(dependsOn: perfClasses) {
+
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    shadowJar {
+        classifier = "benchmarks"
+
+        from sourceSets.perf.output
+        from sourceSets.main.output
+        from project.configurations.perfRuntime
+
+        appendManifest {
+            attributes "Main-Class": "org.openjdk.jmh.Main"
+        }
+    }
+
+    doLast {
+        shadowJar.execute()
+    }
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
