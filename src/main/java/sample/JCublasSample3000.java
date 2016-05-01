@@ -20,11 +20,11 @@ import jcuda.jcublas.JCublas;
  * for single-precision floating point values alpha and beta, and matrices A, B
  * and C of size 1000x1000.
  */
-public class JCublasSample
+public class JCublasSample3000
 {
     public static void main(String args[])
     {
-        testSgemm(2000);
+        testSgemm(3000);
     }
 
     /**

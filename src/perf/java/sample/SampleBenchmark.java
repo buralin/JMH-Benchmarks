@@ -20,18 +20,74 @@ public class SampleBenchmark {
             b = ThreadLocalRandom.current().nextDouble(MAX_VALUE);
         }
     }
-
     @Benchmark
-     public void JCublasSampleBenchmark() {
+     public void JCublasSampleBenchmark10() {
     	String[] args = {};
-		JCublasSample.main(args );
+		JCublasSample10.main(args );
     }
-    
     @Benchmark
-    public void JavaSampleBenchmark(){
+    public void JCublasSampleBenchmark100() {
+   	String[] args = {};
+		JCublasSample100.main(args );
+   }
+    @Benchmark
+    public void JCublasSampleBenchmark1000() {
+   	String[] args = {};
+		JCublasSample1000.main(args );
+   }
+    @Benchmark
+    public void JCublasSampleBenchmark1500() {
+   	String[] args = {};
+		JCublasSample1500.main(args );
+   }
+    @Benchmark
+    public void JCublasSampleBenchmark2000(){
     	String [] args = {};
-    	JavaSample.main(args);
+    	JavaSample2000.main(args);
     }
-    
-
+    @Benchmark
+    public void JCublasSampleBenchmark2500() {
+   	String[] args = {};
+		JCublasSample2500.main(args );
+   }
+    @Benchmark
+    public void JCublasSampleBenchmark3000() {
+   	String[] args = {};
+		JCublasSample3000.main(args );
+   }
+    @Benchmark
+    public void JavaSample10(){
+    	String[] args = {};
+    	JavaSample10.main(args);
+    }
+    @Benchmark
+    public void JavaSample100(){
+    	String[] args = {};
+    	JavaSample100.main(args);
+    }
+    @Benchmark
+    public void JavaSample1000(){
+    	String[] args = {};
+    	JavaSample1000.main(args);
+    }
+    @Benchmark
+    public void JavaSample1500(){
+    	String[] args = {};
+    	JavaSample1500.main(args);
+    }
+    @Benchmark
+    public void JavaSample2000(){
+    	String[] args = {};
+    	JavaSample2000.main(args);
+    }
+    @Benchmark
+    public void JavaSample2500(){
+    	String[] args = {};
+    	JavaSample2500.main(args);
+    }
+    @Benchmark
+    public void JavaSample3000(){
+    	String[] args = {};
+    	JavaSample3000.main(args);
+    }
 }
